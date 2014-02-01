@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/dormserv.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/bootstrap.css' %}"/>
+
+<html>
+    <head>
+        <title>Dormserv Menu</title>
+    </head>
+
+    {% include 'head.html' %}
+    <body>
+        <div id="wrap">
+        <!--{% csrf_token %}!-->
+
+        {% if user.is_authenticated %}
+        {% else %}
+        <a href="/register/">Register Here</a><br />
+        <a href="/login/">Login</a><br />
+        {% endif %}
+
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+            <span class="sr-only">50% Complete</span>
+          </div>
+        </div>
+
+        <div id = "cal_head">
+            <div id = "cal_head_top">
+                <h1>Menu</h1>
+            </div>
+
+        </div>
+
+        <table>
+            <form role="form" method="post" action="detail/">
+            {% csrf_token %}
+            <div id="menu_submit_btn">
+                <input type="submit" class="btn btn-primary btn-lg" style="float:right;" name="submit" value="Submit My Order" />
+            </div>
+
+            <tr>
+
+            <td valign="top">
+                <div id="menu_category">coffee & juice</div>
+                {% for item in coffee %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+                
+                <div id="menu_category">bakery</div>
+                {% for item in bakery %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+            </td>
+            <td valign="top">
+                <div id="menu_category">eggs 'n stuff</div>
+                {% for item in eggs %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+
+
+            </td>
+            <td valign="top">
+                <div id="menu_category">yogurt & granola</div>
+                {% for item in yogurt %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+
+                <div id="menu_category">oatmeal</div>
+                {% for item in oats %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+
+                <div id="menu_category">fruit</div>
+                {% for item in fruit %}
+                <div id="item_listing">
+                <div id="item_name">{{ item.item_name }} {{ item.price_format_usd }} <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}"><br></div>
+                </div>
+                {% endfor %}
+            </td>
+
+            </tr>
+    
+            </form>
+        </table>
+
+        <!---
+        <form role="form" method="post" action="detail/">
+        {% csrf_token %}
+        {% for item in item_list %}
+        <em>{{item.item_name}}</em><br>
+        {{item.price_format_usd}}
+        <input type="checkbox" name=item_list id="{{item.id}}" value="{{item.id}}">
+        <br><br>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary btn-lg" name="submit" value="SUBMIT" />
+        </form>
+        !-->
+    </div>
+    </body>
+
+</html>

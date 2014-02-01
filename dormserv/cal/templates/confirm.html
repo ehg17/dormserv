@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/dormserv.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/bootstrap.css' %}"/>
+
+<html>
+    <head>
+        <title>Confirm Your Order</title>
+    </head>
+
+
+    {% include 'head.html' %}
+
+    <body>
+        <div id="wrap">
+        <!--{% csrf_token %}!-->
+
+        {% if user.is_authenticated %}
+        {% else %}
+        <a href="/login/">Login</a><br />
+        {% endif %}
+
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+            <span class="sr-only">75% Complete</span>
+          </div>
+        </div>
+
+        <h1>Like what you got?</h1>
+
+        <table>
+            <td> 
+                <h3>What you got:</h3>
+                <table class="table table-hover">
+                    <tr>
+                        <td><div id="checkout"><b>Name</b></div></td>
+                        <td><div id="checkout"><b>Price</b></div></td>
+                    </tr>
+                    {% for item in items_to_verify %}
+                    <tr>
+                        <td><div id="checkout">{{ item.item_name }}</div></td>
+                        <td><div id="checkout">{{ item.price_format_usd }}</div></td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><div id="checkout">Delivery Fee</div></td>
+                        <td><div id="checkout">$2.50</div></td>
+                    </tr>
+                    <tr>
+                        <td><div id="checkout"><b>Total:</b></div></td>
+                        <td><div id="checkout"><b>${{ price_to_pass }}</b></div></td>
+                    </tr>
+                </div>
+                </table>
+            </td>
+        </table>
+        <div id="checkout">
+                <br><h3>Where it's going:</h3>
+                <div id="addr_box">{{ current_user.first_name }} {{ current_user.last_name }}<br>
+                {{this_user.dorm}} Quad<br>
+                Room: {{this_user.room}}<br>
+                Phone: {{this_user.phone}}</div>
+        </div>
+        <br>
+        <form role="form" method="post" action="validate_purchase/">
+            {% csrf_token %}
+        <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Pay with Food/Flex" />
+        </form>
+        <br>
+        <!--
+        <form action="validate_purchase/" method="POST">
+        {% csrf_token %}
+          
+            <script src="https://checkout.stripe.com/checkout.js"></script>
+
+            <button id="customButton" class="btn btn-primary btn-lg" name="submit" value="Pay With Card">Pay with Credit Card</button>
+
+            <script>
+              var handler = StripeCheckout.configure({
+                key: 'pk_test_FnsV9xfV5LIuhQ1KcrjWyrCf',
+                image: "{% static "cal/images/128egg.png" %}",
+                token: function(token, args) {
+                  // Use the token to create the charge with a server-side script.
+                }
+              });
+
+              document.getElementById('customButton').addEventListener('click', function(e) {
+                // Open Checkout with further options
+                handler.open({
+                  name: 'Dormserv',
+                  description: "Breakfast",
+                  amount: {{stripe_format_str_price}}
+                });
+                e.preventDefault();
+              });
+            </script>
+        </form>
+        !-->
+        </div>
+    </body>
+</html>
