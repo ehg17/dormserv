@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/dormserv.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'cal/css/bootstrap.css' %}"/>
+
+
+<html>
+    <head>
+        <title>My Profile</title>
+    </head>
+    {% include 'head.html' %}
+
+    <body>
+    	<div id="wrap">
+    		<h1>{{ current_user.first_name }}'s Profile</h1>
+    	</div>
+
+   	</body>
+
+</html>
